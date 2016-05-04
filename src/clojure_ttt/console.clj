@@ -12,6 +12,3 @@
 
 (defn valid-digit [input]
   (if (= true (group/subset? #{input} (set(range 0 8)))) input (do (println "Enter a valid number: ") (valid-digit (user-position)))))
-
-(defn not-number [input]
-  (= true ()))
