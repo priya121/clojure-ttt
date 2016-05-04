@@ -32,11 +32,15 @@
 (defn positions [mark board]
   (map first (filter #(= (second %) mark) (get-indices board))))
 
+(defn display-winner [player-mark]
+  (println (str player-mark " is the winner!")))
+
 (defn win-x? [board size]
-  (if (#(= true %) (first (for [[x y z] (winning-combo board size) :when (= true (group/subset? #{x y z} (set(positions "X" board))))] true))) (do (println "X is the winner!") true) false))
+  (if (#(= true %) (first (for [[x y z] (winning-combo board size) :when (= true (group/subset? #{x y z} (set(positions "X" board))))] true))) (do (display-winner "X") true) false))
+
 
 (defn win-o? [board size]
-  (if (#(= true %) (first (for [[x y z] (winning-combo board size) :when (= true (group/subset? #{x y z} (set(positions "O" board))))] true))) (do (println "O is the winner!") true) false))
+  (if (#(= true %) (first (for [[x y z] (winning-combo board size) :when (= true (group/subset? #{x y z} (set(positions "O" board))))] true))) (do (display-winner "O") true) false))
 
 (defn win? [board size]
   (if (or (win-o? board size) (win-x? board size)) true false))

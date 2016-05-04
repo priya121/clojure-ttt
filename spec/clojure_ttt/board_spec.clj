@@ -5,9 +5,11 @@
 (def empty-board ["-" "-" "-"
                   "-" "-" "-"
                   "-" "-" "-"])
+
 (def two-moves ["X" "O" "-"
                 "-" "-" "-"
                 "-" "-" "-"])
+
 (def three-moves["X" "O" "X"
                  "-" "-" "-"
                  "-" "-" "-"])
@@ -18,6 +20,7 @@
 (def x-win ["X" "O" "X"
             "O" "X" "X"
             "X" "O" "O"])
+
 (def o-win ["O" "X" "O"
             "X" "O" "X"
             "X" "X" "O"])

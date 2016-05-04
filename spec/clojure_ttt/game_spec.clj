@@ -1,7 +1,6 @@
 (ns clojure-ttt.game_spec
   (:require [speclj.core :refer :all]
-   [clojure-ttt.game :refer :all]
-   [clojure-ttt.computer :refer :all]))
+   [clojure-ttt.game :refer :all]))
 
 (def empty-board ["-" "-" "-" "-" "-" "-" "-" "-" "-"])
 

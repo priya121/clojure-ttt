@@ -9,5 +9,3 @@
     (display board size)
     (recur board size))))
 
-
-
