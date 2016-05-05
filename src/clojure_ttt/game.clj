@@ -34,5 +34,3 @@
       (println (str "Human v Computer Game\n Enter a position from 0 - 8\n"))
       (play-h-c board size x o)))))
 
-(defn get-player-index [player]
-  (if (= player :human) (valid-digit (user-position)) (computer-position 3)))
