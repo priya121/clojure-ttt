@@ -27,10 +27,10 @@
 
 (describe "has a board"
   (it "can mark a board with X"
-    (should (= (mark empty-board 0 "X") ["X" "-" "-" "-" "-" "-" "-" "-" "-"])))
+    (should (= (mark-position empty-board 0 "X") ["X" "-" "-" "-" "-" "-" "-" "-" "-"])))
 
   (it "can mark a board with O"
-    (should (= (mark empty-board 8 "O") ["-" "-" "-" "-" "-" "-" "-" "-" "O"])))
+    (should (= (mark-position empty-board 8 "O") ["-" "-" "-" "-" "-" "-" "-" "-" "O"])))
 
   (it "can split board into rows"
     (should (= (display empty-board 3) "---\n---\n---")))

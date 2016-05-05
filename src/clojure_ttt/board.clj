@@ -1,7 +1,9 @@
 (ns clojure-ttt.board
-  (:require [clojure.set :as group]))
+  (:require [clojure.set :as group]
+   :require [clojure-ttt.computer :refer :all]
+   :require [clojure-ttt.console :refer :all]))
 
-(defn mark [board position player]
+(defn mark-position [board position player]
   (assoc board position player))
 
 (defn display[board dimension]
@@ -37,7 +39,6 @@
 
 (defn win-x? [board size]
   (if (#(= true %) (first (for [[x y z] (winning-combo board size) :when (= true (group/subset? #{x y z} (set(positions "X" board))))] true))) (do (display-winner "X") true) false))
-
 
 (defn win-o? [board size]
   (if (#(= true %) (first (for [[x y z] (winning-combo board size) :when (= true (group/subset? #{x y z} (set(positions "O" board))))] true))) (do (display-winner "O") true) false))
