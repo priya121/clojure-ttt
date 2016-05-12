@@ -1,13 +1,11 @@
-(ns clojure-ttt.computer)
-
-(defn mark []
-  (str "O"))
+(ns clojure-ttt.computer
+  (:require [clojure.math.numeric-tower :as math]))
 
 (defn computer-position [size]
   (rand-int (* size size)))
 
-(defn move [board size]
-  (let [temp-index (computer-position size)]
-  (if (= (or "-" "X" "O") (get board temp-index size)) temp-index
-    (move board size))))
+(defn move [board]
+  (let [temp-index (computer-position (math/sqrt (count board)))]
+  (if (= "-" (get board temp-index (math/sqrt (count board)))) temp-index
+    (move board))))
 

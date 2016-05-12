@@ -1,13 +1,24 @@
 (ns clojure-ttt.board
-  (:require [clojure.set :as group]
-   :require [clojure-ttt.computer :refer :all]
-   :require [clojure-ttt.console :refer :all]))
+ (:require [clojure-ttt.computer :refer :all])
+ (:require [clojure.math.numeric-tower :as math])
+ (:require [clojure-ttt.console :refer :all]))
 
-(defn mark-position [board position player]
-  (assoc board position player))
+(defn create-board []
+  (let [size (digit-input)]
+  (vec (take (* size size) (repeat "-")))))
 
-(defn display[board dimension]
-  (apply str(apply concat(interpose ["\n"] (partition dimension board)))))
+(defn empty-position [board position]
+  (if (= "-" (get board position)) position
+    (do (println "Please choose an empty square: \n") ( recur board (digit-input)))))
+
+(defn mark [board position player]
+  (assoc board (empty-position board position) player))
+
+(defn divide-board [board dimension]
+  (apply concat(interpose ["\n"] (partition dimension board))))
+
+(defn display[board]
+  (println (apply str (divide-board board (math/sqrt (count board))))))
 
 (defn board-not-full[board]
   (contains? (set board) "-"))
@@ -18,31 +29,25 @@
 (defn get-indices [board]
   (map-indexed vector board))
 
-(defn row-indices [board size]
-  (doall (map #(range % (+ % size)) (for [[x y] (get-indices board) :when (= 0  (rem x size))] x))))
+(defn row-indices [size]
+  (map #(into [] (range % (+ % size))) (range 0 (* size size) size)))
 
 (defn column-indices [size]
-  (doall (map #(range % (* size size) size) (range 0 size))))
+  (map #(into [] ( range % (* size size) size)) (range 0 size)))
 
 (defn diagonal-indices [size]
   [(take size (range (- size 1) (* size size) (- size 1)))
-   (range 0 (* size size) (+ size 1))])
+  (range 0 (* size size) (+ size 1))])
 
 (defn winning-combo [board size]
-  (partition size (flatten [(row-indices board size) (column-indices size) (diagonal-indices size)])))
+  (concat (row-indices size) (column-indices size) (diagonal-indices size)))
 
 (defn positions [mark board]
-  (map first (filter #(= (second %) mark) (get-indices board))))
+  (into #{} (map first (filter #(= (second %) mark) (get-indices board)))))
 
-(defn display-winner [player-mark]
-  (println (str player-mark " is the winner!")))
+(defn win? [mark board]
+  (if (some true? (map #(every? (positions mark board) %) (winning-combo board (math/sqrt (count board))))) (do (display-winner mark) true) false))
 
-(defn win-x? [board size]
-  (if (#(= true %) (first (for [[x y z] (winning-combo board size) :when (= true (group/subset? #{x y z} (set(positions "X" board))))] true))) (do (display-winner "X") true) false))
-
-(defn win-o? [board size]
-  (if (#(= true %) (first (for [[x y z] (winning-combo board size) :when (= true (group/subset? #{x y z} (set(positions "O" board))))] true))) (do (display-winner "O") true) false))
-
-(defn win? [board size]
-  (if (or (win-o? board size) (win-x? board size)) true false))
+(defn any-win? [board]
+  (if (or (win? "O" board) (win? "X" board)) true false))
 

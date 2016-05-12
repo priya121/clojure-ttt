@@ -14,13 +14,13 @@
     (should (= "6" (with-in-str "6\n" (take-input)))))
 
   (it "converts user input to digit"
-    (should (= 0 (with-in-str "0\n" (user-position)))))
+    (should (= 0 (with-in-str "0\n" (digit-input)))))
 
   (it "prompts user to enter a valid number"
-    (should (= "Enter a valid number: \n" (with-out-str (with-in-str (create-input '("11" "4")) (valid-digit(user-position)))))))
+    (should (= "Enter a valid number: \n" (with-out-str (with-in-str (create-input '("11" "4")) (valid(digit-input)))))))
 
   (it "ensures the user enters number on the board"
-    (should (= 4 (with-in-str (create-input '("11" "100" "4")) (valid-digit(user-position)))))))
+    (should (= 4 (with-in-str (create-input '("11" "100" "4")) (valid (digit-input)))))))
 
 (run-specs)
 
